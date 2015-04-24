@@ -1,0 +1,50 @@
+-----------------------------------------OVERVIEW---------------------------------------------------
+u-boot-spl.img 				HPS SPL Preloader Image
+u-boot.img				HPS U-Boot Image
+socfpga.dtb				HPS Device Tree Binary
+zImage 					HPS Kernel Image (4.0.0)
+rootfs.ext4 				HPS Root File System (Lubuntu 14.04 LTS)
+linux.bin				FPGA OpenRISC 1200 Kernel Binary (3.19.0)
+sockit.sof				FPGA OpenRISC 1200 Bitstream
+
+------------------------------------------USAGE-----------------------------------------------------
+Partition the SD Card for 8G:
+fdisk/dev/sdx
+Create partition using these options, pressing enter after each one: n p 2 4096 15386623 t 83
+Create partition using these options, pressing enter after each one: n p 1 15388672 15429631 t 1 b
+Create partition using these options, pressing enter after each one: n p 3 2048 4095 t 3 a2
+
+The layout should contain three partitions like this:
+Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1        15388672    15429631       20480    b  W95 FAT32
+/dev/sdb2            4096    15386623     7691264   83  Linux
+/dev/sdb3            2048        4095        1024   a2  Unknown
+
+
+Updating SPL Preloader:
+
+$ sudo dd if=u-boot-spl.img of=/dev/sdx3 bs=64k seek=0
+
+Updating U-boot Image
+
+$ sudo dd if=u-boot.img of=/dev/sdx3 bs=64K seek=4
+
+Updating Device Tree Binary:
+
+$ sudo mkdir sdcard
+$ sudo mount /dev/sdx1 sdcard/
+$ sudo cp socfpga.dtb sdcard/socfpga.dtb
+$ sudo umount sdcard/
+
+Updating Kernel Image:
+
+$ sudo mkdir sdcard
+$ sudo mount /dev/sdx1 sdcard/
+$ sudo cp zImag sdcard/zImage
+$ sudo umount sdcard/
+
+Updating Root Filesystem:
+
+$ sudo dd if=rootfs.ext4 of=/dev/sdx2
+
+
