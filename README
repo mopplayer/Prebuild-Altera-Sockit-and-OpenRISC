@@ -4,7 +4,7 @@ u-boot.img				HPS U-Boot Image
 socfpga.dtb				HPS Device Tree Binary
 zImage 					HPS Kernel Image (4.0.0)
 rootfs.ext4 				HPS Root File System (not included)
-linux.bin				FPGA OpenRISC 1200 Kernel Binary (3.19.0)
+vmlinux.bin				FPGA OpenRISC 1200 Kernel Binary (3.19.0)
 sockit.sof				FPGA OpenRISC 1200 Bitstream
 
 ------------------------------------------USAGE--------------------------------------------
